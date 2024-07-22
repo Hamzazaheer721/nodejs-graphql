@@ -20,6 +20,19 @@ const resolvers = {
     },
     reviews: () => {
       return _db.reviews
+    },
+    /* Query Variables */
+    review: (_, args) => {
+      const id = args?.id
+      return _db.reviews.find((review) => review.id === id)
+    },
+    author: (_, args) => {
+      const id = args?.id
+      return _db.authors.find((author) => author.id === id)
+    },
+    game: (_, args) => {
+      const id = args?.id
+      return _db.games.find((game) => game.id === id)
     }
   }
 }
