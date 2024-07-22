@@ -11,6 +11,7 @@ const port = process.env.PORT
 /* Resolver */
 const resolvers = {
   Query: {
+    /* These are resolvers for the entry point in graphql */
     /* Function names should be same as defined in typedefs' Query type */
     games: () => {
       return _db.games
@@ -33,6 +34,28 @@ const resolvers = {
     game: (_, args) => {
       const id = args?.id
       return _db.games.find((game) => game.id === id)
+    }
+  },
+  /* All the types from typedefs can be used here for chaining */
+  /* now make use of polymorphism, we will override the methods from Query */
+  Author: {
+    /* reviews is present as attribute in Author type */
+    reviews: (parent) => {
+      /* parent is returning resultant from Query.author or Query.authors */
+      return _db.reviews?.filter((review) => review.author_id === parent?.id)
+    }
+  },
+  Review: {
+    game: (parent) => {
+      return _db.games.find((game) => game.id === parent.game_id)
+    },
+    author: (parent) => {
+      return _db.authors.find((author) => author.id === parent.author_id)
+    }
+  },
+  Game: {
+    reviews: (parent) => {
+      return _db.reviews.filter((review) => review.game_id === parent.id)
     }
   }
 }
