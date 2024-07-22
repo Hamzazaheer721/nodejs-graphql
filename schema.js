@@ -16,7 +16,7 @@ export const typeDefs = `#graphql
   }
   type Query {
     games: [Game],
-    review: [Review],
+    reviews: [Review],
     authors: [Author]
   }
 `
