@@ -57,6 +57,22 @@ const resolvers = {
     reviews: (parent) => {
       return _db.reviews.filter((review) => review.game_id === parent.id)
     }
+  },
+  Mutation: {
+    deleteGame: (_, args) => {
+      const id = args.id
+      _db.games = _db.games.filter((game) => game.id !== id)
+      return _db.games
+    },
+    addGame: (_, args) => {
+      const game_ = args.game
+      const game = {
+        ...game_,
+        id: Math.floor(Math.random() * 1000).toString()
+      }
+      _db.games.push(game)
+      return game
+    }
   }
 }
 
